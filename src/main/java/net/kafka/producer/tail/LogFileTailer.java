@@ -129,8 +129,8 @@ public class LogFileTailer implements Runnable {
 						this.count++;
 						log.info("{@line}=" + line + "\t{@count}=" + this.count);
 					}
-//					log.info("{@count}=" + this.count + "\t {@time}="
-//							+ System.currentTimeMillis());
+					// log.info("{@count}=" + this.count + "\t {@time}="
+					// + System.currentTimeMillis());
 					filePointer = file.getFilePointer();
 				}
 				TimeUnit.MILLISECONDS.sleep(this.sampleInterval);
@@ -143,12 +143,12 @@ public class LogFileTailer implements Runnable {
 				long lastModify = this.logfile.lastModified();
 				long curtime = System.currentTimeMillis();
 				long modifyInterval = 3600000L;
-				if (curtime - lastModify >= modifyInterval) {
+				if (lastModify > 0 && curtime - lastModify >= modifyInterval) {
 					log.info("Tail -f ended:" + this.logfile + " count="
-							+ this.count);
+							+ this.count + ", with current time=" + curtime
+							+ ", file modify time=" + lastModify);
 					break;
 				}
-
 			}
 			file.close();
 			this.close();
